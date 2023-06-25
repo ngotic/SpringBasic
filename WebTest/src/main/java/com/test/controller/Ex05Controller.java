@@ -26,6 +26,7 @@ public class Ex05Controller {
 	
 	// 데이터 수신
 	// - 기존 : req.getParameter("")
+	
 	/*
 	@PostMapping("/ex05ok.do") // addok.do 역할
 	public String ex05ok(HttpSession session,
@@ -33,12 +34,13 @@ public class Ex05Controller {
 			HttpServletResponse resp) {
 		
 		// 얘네 매개변수 위치를 바꾸어도 상관이 없다.
-		// System.out.println(req == null);
-		// System.out.println(resp == null);
-		// System.out.println(session == null);
+		System.out.println(req == null);
+		System.out.println(resp == null);
+		System.out.println(session == null);
 		
 		String data = req.getParameter("data"); 
 		// 이거 request를 잘안쓴다. > 물론 쓸 수는 있다. 
+		// 서블릿처럼 Post 전송의 바디 내용을 이렇게 받는 것이 가능 
 		
 		req.setAttribute("data", data); // request로 넘김 
 		
@@ -107,9 +109,9 @@ public class Ex05Controller {
 		dto.setAddress(address);
 		
 		model.addAttribute("dto", dto);
-		
 		return "ex05ok";
 	}*/
+	
 	/*
 	@PostMapping("/ex05ok.do")
 	public String ex05ok (
@@ -129,6 +131,7 @@ public class Ex05Controller {
 		
 		return "ex05ok";
 	}*/
+	
 	/*
 	@PostMapping("/ex05ok.do")
 	public String ex05ok (Model model,
@@ -140,13 +143,15 @@ public class Ex05Controller {
 		System.out.println(seq);
 		return "ex05ok";
 	}*/
+	
 	/*
 	@PostMapping("/ex05ok.do")
 	public String ex05ok(Model model,
-			// @RequestParam("cb") String[] cb
-			//String[] cb
-			@RequestParam("cb") List<String> cb
-			// ArrayList<String> cb 이건 안된다.
+			// @RequestParam("cb") String[] cb // 된다. 
+			String[] cb                          // 된다. 
+			//@RequestParam("cb") List<String> cb // 된다. 
+			//List<String> cb //이건 안된다.
+			//ArrayList<String> cb //이건 안된다.
 			){
 		//String[] list = req.getParameterValues("cb")
 		model.addAttribute("cb", cb);
@@ -162,6 +167,7 @@ public class Ex05Controller {
 	}*/
 	
 	
+	/*
 	// input태그에 name="name"과 setter 의 이름이 같아야 한다. 
 	@PostMapping("/ex05ok.do") // 어떻게 맵핑한거지?? 
 	public String ex05ok( @ModelAttribute("dto") SpringDTO dto) {
@@ -171,5 +177,6 @@ public class Ex05Controller {
 		
 		return "ex05ok";
 	}
+	*/
 	
 }

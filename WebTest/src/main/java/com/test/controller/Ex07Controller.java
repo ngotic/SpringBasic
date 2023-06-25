@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class Ex07Controller {
 	
 	@RequestMapping(value="/ex07.do", method=RequestMethod.GET) 
-	public String ex07(@RequestParam(value="num", defaultValue="10") int num, Model model) {
+	public String ex07(@RequestParam(value="num") int num, Model model) {
 		
 		model.addAttribute("num", 100/num);
 		return "ex07";

@@ -40,16 +40,17 @@ public class Ex06Controller {
 //		//return "forward:/ex05.do";
 //	}
 	
-//	@GetMapping("/ex06.do")
-//	public String test(RedirectAttributes rttr) {
-//		String seq  = "5";
-//		String type = "1";
-//		rttr.addAttribute("seq", seq);
-//		rttr.addAttribute("type", type);
-//		// 쿼리 스트링을 안붙임 
-//		// return "redirect:/ex05.do?seq=" +seq + "&type=" + type;
-//		return "redirect:/ex05.do";
-//	}
+	@GetMapping("/ex06.do")
+	public String test(RedirectAttributes rttr) {
+		String seq  = "5";
+		String type = "1";
+		rttr.addAttribute("seq", seq);
+		rttr.addAttribute("type", type);
+		// 쿼리 스트링을 안붙임 
+		// return "redirect:/ex05.do?seq=" +seq + "&type=" + type;
+		return "redirect:/ex05.do";
+	}
+	
 	// 4. 객체
 	// - @ResponseBody > 이거 덕분에 JSONArray 만들 필요가 없다. 
 	// - JSON 반환값 생성하는 어노테이션 
@@ -66,18 +67,18 @@ public class Ex06Controller {
 		return dto;
 	}*/
 	// 브라우저는 이걸 받는다. >> {"name":"홍길동","age":"20","address":"서울시"}
-	@GetMapping("/ex06.do")
-	public @ResponseBody List<SpringDTO> test() {
-		
-		List<SpringDTO> list = new ArrayList<SpringDTO>();
-		SpringDTO dto = new SpringDTO();
-		dto.setName("홍길동");
-		dto.setAge("20");
-		dto.setAddress("서울시");
-		
-		list.add(dto);
-		
-		return list;
-	}
+//	@GetMapping("/ex06.do")
+//	public @ResponseBody List<SpringDTO> test() {
+//		
+//		List<SpringDTO> list = new ArrayList<SpringDTO>();
+//		SpringDTO dto = new SpringDTO();
+//		dto.setName("홍길동");
+//		dto.setAge("20");
+//		dto.setAddress("서울시");
+//		
+//		list.add(dto);
+//		
+//		return list;
+//	}
 	
 }

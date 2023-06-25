@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller 
-@RequestMapping("/ex04.do") // 컨트롤러하나당 가상주소 겁나 늘릴 수 있다. 
+@RequestMapping("/ex04") // 컨트롤러하나당 가상주소 겁나 늘릴 수 있다. 
 public class Ex04Controller {
 	
-	
+	//http://localhost:8091/web/ex04.do/ex04.do
 	@RequestMapping("/ex04.do") 
 	public String ex04() {
 		return "ex04";
