@@ -61,10 +61,10 @@ Connection 객체들 따로 관리
 - 모두 DB 연결 
 
 놀고 있는 커넥션을 제공한다. 
-커넥션이 졸라 많음 커넥션 풀임 이렇게 제공받은 커넥션으로 DB 왔다갔따한다. 
+커넥션이 졸라 많음 > 커넥션 풀임 이렇게 제공받은 커넥션으로 DB 왔다갔따한다. 
 
 Connection Pool, 커넥션 풀
-잦은 연결과 종료를 반족하지 않고 이미 연결한 
+잦은 연결과 종료를 반복하지 않고 이미 연결한 
 커넥션을 사용자들에게 순차적으로 제공하고 관리한다. 
 
 
@@ -81,15 +81,15 @@ HikariCP > 스프링 2.0부터 기본적용이다.
 
 
 pom.xml
->common-dbcp 의존 추가
--root-context.xml > 설정 추가
+> common-dbcp 의존 추가
+- root-context.xml > 설정 추가
 
 HikariCP도 보자 
 - pom.xml
 
 MyBatis 설정
 - pom.xml > 의존 추가(4개)
-- root-context.xml 에 넣음 
+- root-context.xml에 넣음 
 
 MyBatis는 result셋이런거 prestate이런거 안씀
 

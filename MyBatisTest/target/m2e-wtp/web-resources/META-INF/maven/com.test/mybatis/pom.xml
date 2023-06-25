@@ -168,7 +168,9 @@
           <artifactId>commons-dbcp</artifactId>
           <version>1.4</version>
       </dependency>
+      
       <!-- HicariCP 위에나 아래나 둘 중 택이다. -->
+      
       <dependency>
           <groupId>com.zaxxer</groupId>
           <artifactId>HikariCP</artifactId>

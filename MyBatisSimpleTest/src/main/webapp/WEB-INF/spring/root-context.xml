@@ -34,7 +34,6 @@
 	2. SqlSessionTemplate > 누가 SQL 실행?
 		- <mybatis-spring>
 		- <TimeMapper(I) > 인식 sql 실행 
-	
 	 -->
 	<mybatis-spring:scan base-package="com.test.mapper"/>
 </beans>

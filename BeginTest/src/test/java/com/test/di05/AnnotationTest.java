@@ -15,17 +15,12 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml") // 있는거 쓰다보니까... 얘를 씀 어떤거 써도 갠찬
 @Log4j
 public class AnnotationTest {
-	
 	@Autowired
 	private BoardController controller;
-	
+	// 컨트롤러를 주입했을때 이게 Null인지 확인한다. 
 	@Test
 	public void testController() {
-		
 		assertNotNull(controller); 
-		
 		controller.doGet();
-		
 	}
-	
 }	

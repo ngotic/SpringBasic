@@ -17,13 +17,13 @@ import lombok.Setter;
 public class Hong {
 	
 	// 얘를 가장 많이 썼다.
-	@Autowired 
-	private Pen pen; // 여기다가 Autowired를 붙여도 된다. 그러면 잡다한게 다 사라진다.
+	//@Autowired 
+	//private Pen pen; // 여기다가 Autowired를 붙여도 된다. 그러면 잡다한게 다 사라진다.
 	// 얘는 내부적으로 setter를 호출한 셈이다. 밑에서부터 위로 올라온 과정이다. 
 	
 	// Setter라는 lombok 애너테이션이 있다. 
-	//@Setter(onMethod_ = @Autowired) // 얘의 setter를 만들어줘 
-	//private Pen pen;
+	@Setter(onMethod_ = @Autowired) // 얘의 setter를 만들어줘 
+	private Pen pen;
 	
 	// 생성자 주입 
 	/*
