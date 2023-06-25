@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.mapper.BoardMapper">
+
+	<insert id="add">
+		insert into tblBoard (seq, subject, content, regdate, id)
+			values (seqBoard.nextVal, #{subject}, #{content}, default, #{id})
+	</insert>
+	
+	<select id="list" resultType="com.test.domain.BoardDTO">
+		select 
+			seq, subject, content, regdate, id
+		from tblBoard 
+			order by seq desc 
+	</select>
+	
+	<select id="get" resultType="com.test.domain.BoardDTO">
+		select 
+			* 
+		from tblBoard
+			where seq = #{seq}
+	</select>
+	
+	<update id="edit">
+		update tblBoard set 
+			subject = #{subject},
+			content = #{content}
+				where seq = #{seq}
+	</update>
+	
+	<delete id="del">
+		delete from tblBoard
+			where seq = #{seq}
+	</delete>
+	
+</mapper>

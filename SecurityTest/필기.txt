@@ -1,0 +1,211 @@
+security-context.xml
+
+- /webapp/WEB-INF/spring/security-context.xml
+- root-context.xml, servlet-context.xml
+- 기존 컨텍스트와 분리해서 설정할 수 있다. 
+
+
+
+web.xml
+- 스프링 시큐리티가 스프링 MVC에서 사용 > 필터를 사용해서 시큐리티가 스프링 동작에 관여하도록 설정
+
+- 필터하나를 등록하자! 
+- 이거 필터는 앞에가 먼저 호출 뒤에가 호출된다. 
+> 순서가 중요한데 ★★★★ 반드시 인코딩 필터가 먼저와야 한다.
+
+<filter>
+   <filter-name>springSecurityFilterChain</filter-name>
+   <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+</filter>
+   
+<filter-mapping>
+   <filter-name>springSecurityFilterChain</filter-name>
+   <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+
+먼저 처음 실행하면 에러가 나는데 
+설정을 제대로 하려면ㅁ
+
+security-context.xml 인식 > web.xml 추가
+security-context.xml 기본 구문을 설정 
+
+테스트를 위한 URI 설계
+- 통제가 필요한 URI 설계 + 스프링 시큐리티를 적용 
+
+-/index.do > 로그인을 하던 안하던 모든 사용자가 접근 가능
+-/member.do > 로그인한 회원만 볼 수 있는 페이지
+-/admin.do > 로그인을 하지만 회원 중 관리자 권한이 있는 사람만 본다.
+
+파일 생성 
+- "com.test.controller" > "TestController.java"
+- views > "index.jsp"
+        > "member.jsp"
+        > "admin.jsp"
+        > "template.jsp"
+
+- views > "inc" > "header.jsp"
+
+인증(Authentication), 허가(권한부여, Authorization)
+
+스프링 시큐리티 
+
+AuthenticationManager 
+- 인증 매니저 
+- 가장 중심에서 가장 중요한 역할 
+- 인증을 담당한다. 
+
+AuthenticationProvider
+- 인증 제공자 
+- 실제로 인증 작업을 진행하는 역할
+
+UserDetailsService
+- 사용자의 정보 + 사용자 권한 > 관리
+ 
+ 
+로그인, 로그아웃 처리 > 인증 
+
+
+security-context.xml 수정 
+
+단순 로그인 처리 
+- 자동 생성 로그인 페이지 사용 
+- 계정 정보 > XML 정의 > 메모리 상 관리 
+
+security-context.xml
+
+***** 스프링 시큐리티에서 username 의미
+- 일반 시스템(userid) == 스프링 시큐리티(username)
+- '홍길동' != username
+- 'hong' == username
+
+★ 아아디가 username이다. 
+실행
+-There is no PasswordEncoder mapped for the id 'null'
+- 스프링 4는 암호화가 선택
+- 스프링 5부터는 암호화가 필수 > PasswordEncoder 사용 
+
+
+관리자 사용자 설정 
+- 1. 비회원 ( X ) 
+- 2. 회원   ('ROLE_MEMBER') > 1
+- 3. 관리자 ('ROLE_ADMIN', 'ROLE_MEMBER')  > 1, 2 관리를 두개줘야 한다. 
+
+
+접근 권한 메세지 처리
+- 로그인을 한 상태에서 접근 불가능한 URI를 접근하면 에러가 발생 > 403
+1. AccessDeniedHandler 직접 구현
+2. 단순 URI 지정 > forward 방식 > 주소가 안바뀐다. 
+
+
+에러 페이지 작성
+- com.test.controller > "AuthController.java"
+- views > "accesserror.jsp"
+
+직접 구현하기
+- "com.test.auth" > "CustomAccessDeniedHandler.java"
+
+Principal 이라는 객체가 있음 
+
+로그인 페이지
+- 직접 로그인 페이지 구현 > URI 지정
+
+- AuthController.java > 로그인 페이지 추가
+
+- <form>의 action이 "/login"이다. + POST 
+- <input name="username">, <input name="password"> name이 예약어이다. 
+
+- "/login" + GET 요청 > /customlogin.do 호출하도록 수정해야 한다. 
+
+<input type="hidden" name="_csrf" value="e2927cc3-daa9-43b9-849f-cd5fb5e0ba6b">
+서버로 전송할 때 토큰도 같이 전송
+서버 메모리에 저장한 토큰값과 폼으로 전송한 토큰과 같다고 확인한다.
+이 값이 값이 틀리면 뒷구멍으로 들어온거다.
+
+
+// 해킹기법임  
+CSRF, Cross-site request forgery
+- CSRF 공격 > 토큰 
+- <security:csrf disabled="true" /> 
+- 이 모든 일은 데이터를 전송할 때 일어난 것 
+- 그래서 반드시 POST 요청시 이 token을 가지고 해야 한다.
+ - 그냥 이런 안전장치가 있다라는 것 
+
+
+로그인 > 후속 동작
+
+- 로그인 성공 후에 특정한 동작을 하고 싶을 때... 
+- AuthenticationSuccessHandler 인터페이스를 구현    
+- com.test.auth > "CustomLoginSuccessHandler.java"
+
+로그아웃 
+- 로그인처럼.. URI 지정 > 핸들러 등록
+- AuthController.java > 메소드 추가
+- views > "customlogout.jsp"
+
+계정정보
+- XML > <security:user name="hong" password="{noop}1111"
+authorities="ROLE_MEMBER">
+
+데이터베이스를 활용한 계정정보
+1. 미리 정해진 구조의 스키마 사용 > 편해짐 > 제약 심함 
+2. 사용자가 직접 만든 구조의 스키마 사용 > 불편함 > 제약 약함  
+- InMemoryUserDetailsManager를 사용한 방식 
+
+SecurityTest > "script.sql"
+
+
+com.test.auth > "CustomNoOpPasswordEncoder.java"
+
+스프링 시큐리티에서 제공하는 기본 스키마말고, 사용자가 직접 설계한 스키마로 적용 
+
+테이블 설계 
+
+
+
+스프리 시쿠리티
+-BCryptPasswordEncoder 클래스 사용
+-bcrypt(Blowfish > 암호화 해시 함수)
+- 함호화 가능, 복호화 불가능
+
+
+인증을 하는데 사용한 쿼리
+
+select 
+	userid as username,
+	userpw as password,
+	enabled
+from tbl_member 
+	where userid = 'hong'
+
+권한을 확인하는데 사용할 쿼리
+select
+	userid username,
+	auth authority
+from tbl_member_auth
+	where userid=?
+	
+
+
+UserDetailsService
+- 여태까지.. username(id), userpassword, enabled, authority
+- 추가로 관리하고 싶은 정보가 있으면 직접 UserDetailsService를 구현 
+
+우리가 가져오고 싶은 정보 > SQL
+1. MemberDTO
+2. AuthDTO
+3. MemberMapper(I)
+4. MemberMapper.xml
+
+
+4. src/test/java > "com.test.mapper" > "MapperTest.java"
+
+
+자동 로그인(Remember-me) 
+- 스프링 시큐리티에 기본으로 탑재
+
+
+
+
+
+

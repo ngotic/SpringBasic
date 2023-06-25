@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="파일명" 어지간하면 이렇게 ! -->
+<mapper namespace="test">
+
+	<!--
+		모든 SQL 작성 > XML 			
+	 -->
+	 
+	 <!--
+	 <select id=""></select>
+	 <insert id=""></insert>
+	 <update id=""></update>
+	 <delete id=""></delete>
+	 -->
+	 
+	 <select id="time" resultType="String">
+	 	select sysdate from dual
+	 </select>
+	 
+	 
+</mapper>

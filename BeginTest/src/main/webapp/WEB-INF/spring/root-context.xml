@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- @Component를 동작 시키기 위해서 : 대상 패키지 지정
+	 
+		스프링 컨테이너에 의해서 객체가 관리가 되려면
+		> 특정 패키지를 타겟으로 지정
+		> 패키지를 지정하지 않으면 전체를 감시해야 하는데 그러면 성능이 떨어진다.
+		> 특정 패키지내의 클래스를 관리 대상으로 인식
+			 
+	-->
+	
+	<context:component-scan base-package="com.test.di03"></context:component-scan>
+	
+	<!-- 
+		BoardController > BoardService > BoardDAO
+		
+		빈 만들기
+		1. <bean>
+		2. 어노테이션(@Component)  
+	-->
+	
+	<bean id="controller" class="com.test.di04.BoardController">
+		<constructor-arg ref="service"></constructor-arg>
+	</bean>
+	
+	<bean id="service" class="com.test.di04.BoardServiceImpl">
+		<property name="dao" ref="dao"></property>
+	</bean>
+	<!-- 직접 넣을 수도 있는데 직접 넣으면 재사용이 떨어진다. -->
+	
+	<bean id="dao" class="com.test.di04.BoardDAOImpl"></bean>
+	
+	<context:component-scan base-package="com.test.di05"></context:component-scan>
+	
+</beans>

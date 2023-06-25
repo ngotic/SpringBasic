@@ -1,0 +1,52 @@
+Socket
+- 네트워크상에서 호스트간의 통신하는 규약(약속) - 인터페이스 
+- 여러 언어들이 Socket 구현 > 클래스 or 객체 제공 
+
+에이젝스 채널 만들어서 별도의 채널 송수신 했다.
+
+웹통신, Ajax통신 <-> 소켓 통신 (양방향 통신(전화))
+( 단방향 통신(편지, 무전기) )
+
+WebSocket 
+- HTML5
+- JavaScript 에서 소켓 통신 지원
+
+Spring
+- WebSocket을 지원하는 API 제공 
+
+
+파일생성
+- com.test.controller > SocketController.java
+
+
+- views > test.jsp
+
+http는 상태가 없다.
+
+웹소켓은 전화기다. 
+
+알림 서비스
+- 관리자가 접속자에게 공지 > 알림 표시 구현
+
+- com.test.server > "NoticeServer.java"
+
+- views > "admin.jsp"
+		> "user.jsp"
+		
+		
+알림을 보내는 사람, 받는 사람이 있어야 한다. 
+
+
+채팅 서비스
+- com.test.server > "ChatServer.java"
+
+- com.test.domain > ChatDTO.java
+
+- views >
+
+
+
+
+
+
+ 

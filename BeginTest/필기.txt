@@ -1,0 +1,159 @@
+
+
+의존관계?
+- src/main/java > "com.test.di01" 패키지 생성
+                > "Main.java"
+                > "Hong.java"
+                > "Pen.java"                
+                > "Lee.java"
+                > "Brush.java"
+
+- src/main/java > "com.test.di02"
+				> "Main.java"
+				> "Hong.java"
+				> "Pen.java"
+				> "di02.xml"
+				
+- src/main/java > "com.test.di03"
+                "Hong.java"
+                "Pen.java"
+                
+- src/test/java 
+
+
+의존 객체를 업무중에 누군가 바꿔버리면 내부 행동에 변화를 줄 수 있으니까
+기회를 1번만 준다는거
+보통 객체를 주입할때는 지금처럼 클래스 타입을 안쓰고
+인터페이스를 사용하는데
+그러다보니 내부 객체가 뭐가 들어있는지에 대한 보장을 받을 수 없다보니까
+처음 생성하는 사람이 객체를 넣으면 누군가가 변경을 하지 못하게 하는
+일종의 읽기 전용같은 느낌?
+
+
+Spring AOP, Aspect Oriented Programming
+- 관점 지향 프로그래밍 
+- 관점, 관심사 > 코드를 작성하는데 필요한 주업무가 아닌, 나머지 신경써서할 보조 업무
+- 핵심 업무는 아니지만, 코드를 완성하기 위해서 필요한 나머지 업무들
+- Concern > 관심사, 관점
+
+
+[게시판 글쓰기]
+1. 기존 방식
+	- Add.do
+		a. 글쓰기 : 주업무
+		b. 권한 체크 : 보조업무 
+	- 주업무와 보조업무를 같은 곳에서 구현(한 파일에서 구현)
+	- 어디서부터 어디까지가 메인업무고 어디서부터 어디까지가 보조업무인지 주석안달면 몰라
+	- 그래서 AOP는 그 두개를 분리하자 
+	
+2. AOP 방식
+	- Add.do
+	- 주업무와 보조업무를 분리시켜서 따로 구현
+	- 스프링을 통해서 주업무와 보조업무를 다시 결합 후 동작
+	- ( 그러면 원래부터 하나의 파일에서 코딩했던것처럼 동작한다. ) 
+	 
+
+Spring AOP 용어
+1. Core Concern
+	- 비즈니스 코드, 주업무 
+	
+2. Cross-cutting Concern
+	- 보조업무
+	
+3. Target(대리연결>가상객체 느낌이다.)
+	- 순수한 비즈니스 로직을 소유한 객체
+	- 객체
+	
+4. Proxy
+	- Target을 감싸고 있는 객체
+	
+5. JoinPoint(doPost 같은거)
+	- Target이 가진 메소드(주업무)	
+
+6. Pointcut 
+   - 보조업무와 어떤 JoinPoint에 연결하는 작업
+	   
+7. Aspect
+   - 보조업무를 구현하는 객체 
+   
+8. Advice 
+   - 주업무가 실행되는 어느 시점에서 보조업무를 실행할지?
+   - ex) 글쓰기 권한체크> 글쓰기는 글쓰기전에 했는데 그 때 쓴다.
+   
+   - Before Advice 
+   	 - 주업무가 실행되기 전에 보조업무를 실행
+   	 
+   - After Advice
+   	 - 주업무가 종료된 후에 보조업무를 실행
+   	 - 주업무의 성공 유무와 상관없이 실행 
+   
+   - Around Advice
+   	 - 주업무 실행 전후에 보조업무를 모두다 개입시킨다. 
+   	 - 앞이나 뒤에다가 붙일 수 있다.
+   	 
+   	- After-returning Advice
+   		- After Advice 유사
+   		- 주업무가 성공했을 때만 실행
+   		
+   	- After-throwing Advice( 예외 발생헀을 때만 실행한다.) 
+   		- 예외가 발생할 때만 실행
+   	
+   	
+XML 방식
+
+- "com.test.aop1" 패키지 생성
+		> "Main.java"         // 메인
+		
+		> "Memo.java(I)"      // 메인 업무 객체(인터페이스)
+		> "MemoImpl.java"(C)  // 메인 업무 객체(클래스)
+		
+		> "Logger.java"(C)    // 보조업무 객체(클래스)
+		
+		> "memo.xml"          // 스프링 설정 파일(<beans>) 
+
+		
+// 클래스를 직접 참조하면 서비스 단에서 변화가 생겼을 때 클래스 이름을 바꾸는 순간 참조하는 쪾에서도
+모든 참조 클래스를 다 바꿔야 한다.
+인터페이스를 참조해서 상속하는 관계를 맺으면 ...교체가 용이하다. 클래스를 직접 안만들고
+인터페이스를 상속받아서 만든다.  
+
+src/main/java 
+		> "com.test.di04"
+								 > "BoardController.java"      // 컨트롤러(흐름 통제)
+								 > "BoardService.java (I)"     // OOOService. 주업무 객체
+								 > "BoardServiceImpl.java (C)" // OOOServiceImpl.
+								 > "BoardDAO.java (I)"         // OOODAO 데이터 객체 
+								 > "BoardDAOImpl.java (C)"     // OOODAOImpl 
+
+src/main/java 
+		> "com.test.di04"
+								> "XMLTest.java"
+								> "AnnotationTest.java"
+								
+src/main/java 
+	    > "com.test.di05"
+	    	>"AnnotationTest.java"
+	    	
+// 대답은 명료하고 단답형으로 간단하게 ! 
+
+// [ 질의 응답 준비 > 이론(명확 대답) ] 
+// 1. 자바
+// 2. 오라클
+// 3. 스프링(Spring) > DI, AOP
+
+
+IoC, Inversion of Control
+- 역제어 
+
+객체 생성 순서 
+- 기존방식
+	- BoardController > BoardService > BoardDAO
+- 의존주입 
+	- 객체를 만드는 순서가 꺼꾸로 뒤집어진다. 
+	- DI를 구현하는 방식을 뒤집은 것이 역제어다. 
+	- BoardDAO > BoardService > BoardController :: IoC	
+
+
+새 프로젝트 만들기 
+
+- New > Spring Legacy Project > Spring MVC Project > "WebTest" > "com.test.web" > Finish

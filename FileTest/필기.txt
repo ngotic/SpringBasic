@@ -1,0 +1,51 @@
+새 프로젝트 만들기
+- FileTest
+
+com.test.file 
+
+
+파일 업로드
+
+cos.jar > 개발종료
+
+
+
+commons-fileupload > 많이 사용
+★★★★ Servlet 3.0이상 > 파일 업로드 기능
+
+pom.xml은 복붙, 패키지 이름정보만 채우기
+
+root-context.xml
+
+mapper 복붙
+log4jdbc.log4j.properties 복붙,
+log4j 복붙 
+
+com.test.java에 
+> com.test.persistence 복붙
+
+그리고 ojdbc6.jar를 build path에 external lib로 연결
+WEB deployment assembly 연결
+
+web.xml은 한글 필터 때문에 넣음
+web.xml에서 위쪽 태그부분 고치기
+- 파일 업로드 설정 추가 
+
+pom.xml
+- 의존성 추가
+
+servlet-context.xml
+- 파일 업로드 <bean>추가
+
+
+★ 단일 파일 업로드 
+- DB(X)
+- com.test.controller > FileController.java
+- views > add.jsp
+		> addok.jsp
+
+
+★ 다중 파일 업로드
+- DB(O)
+
+ 

@@ -1,0 +1,125 @@
+옛날에는 iBatis
+
+지금은 MyBatis
+- 영속성 계층(데이터베이스 조작기술)
+- JDBC 역할과 동일
+- 응용 프로그램 <-> JDBC    <-> 데이터베이스
+- 응용 프로그램 <-> MyBatis <-> 데이터베이스
+- JDBC 기반> 관리, 생산성 향상
+
+MyBatis는 스프링 기술이 아니다. 독립적인 기술이다.
+
+MyBatis를 스프링에 적용하는 방법
+1. XML 매퍼를 사용하는 방법
+2. 인터페이스 매퍼를 사용하는 방법
+
+pom.xml > dependency 추가 
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <!-- <version>3.4.6</version> warning 때문에 --> 
+    <version>3.5.2</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>1.3.2</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-tx</artifactId>
+    <version>${org.springframework-version}</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>${org.springframework-version}</version>
+</dependency>
+
+// 오라클이 소송을 걸었었다. maven에 오라클 드라이브가 없어짐
+// 그래서 이것만 따로 수동으로 추가해야 한다. 그래서 얘만은 붙여넣어야 한다.
+ojdbc6.jar이 원래 필요했다.
+- 이전 방식   : WEB-INF\lib 폴더 복사
+- 새로운 방식 :   
+
+// 아니면 사용자 repo에서 서버를 등록한다. 
+// 기존 lib는 maven repo에서 받고, 특정한거만 사설 repo에서 받는다.  
+ 
+C:\oraclexe
+C:\class\code\spring\ojdbc6.jar
+
+
+src/test/java > "com.test.persistence" > "JDBCTest.java"
+
+
+Connection 객체들 따로 관리
+- connection 객체들을 미리 여러개 생성(10개)
+- 모두 DB 연결 
+
+놀고 있는 커넥션을 제공한다. 
+커넥션이 졸라 많음 커넥션 풀임 이렇게 제공받은 커넥션으로 DB 왔다갔따한다. 
+
+Connection Pool, 커넥션 풀
+잦은 연결과 종료를 반족하지 않고 이미 연결한 
+커넥션을 사용자들에게 순차적으로 제공하고 관리한다. 
+
+
+Commons DBCP
+Tomcat DBCP
+HikariCP > 스프링 2.0부터 기본적용이다.
+
+현재는 Commons DBCP, HikariCP를 사용한다. 하드하게 쓸 때 차이가 난다. 
+커넥션풀이 있으면 좋은게 여러명이 디비작업하면 뻗어버리는데 안뻣는다 이제.
+짧은 시간에 여러명이서 여러번 접속하니까 뻗은것이다. 
+
+10개 풀이있는데 11번쨰는 기다려야 한다. 이전 사람이 커넥션을 반납할 때 까지... 
+그래서 기본값이 10개만 잡혀있어도 대기를 할 가능성이 낮다. 
+
+
+pom.xml
+>common-dbcp 의존 추가
+-root-context.xml > 설정 추가
+
+HikariCP도 보자 
+- pom.xml
+
+MyBatis 설정
+- pom.xml > 의존 추가(4개)
+- root-context.xml 에 넣음 
+
+MyBatis는 result셋이런거 prestate이런거 안씀
+
+MyBatis > SQL 쿼리작성
+1. XML Mapper 
+2. Annotation > Interface Mapper 
+
+- src/main/resources > "mapper" 폴더 > "test.xml"
+
+
+com.test.persistence  > MapperTest.java
+
+
+각종 SQL 실행하기
+- "com.test.controller" > "MyBatisController.java"
+
+
+
+log4jdbc-log4j2 설정하기
+-log4j를 사용해서 jdbc를 감시한다.
+
+
+
+src/test/resource >  log4j.xml
+src/main/resource >  log4j.xml
+
+
+
+새 프로젝트 만들기
+New > Spring Legacy Project > Spring MVC Project > "Code" > "com.test.code" > Finish
+
+
+resources에 files를 만들어야 한다. 

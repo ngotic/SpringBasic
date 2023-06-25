@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="파일명" 어지간하면 이렇게 ! -->
+<mapper namespace="mybatis">
+
+	<insert id="m1">
+		insert into tblMyBatis(seq, name, age, address, gender )
+        values(seqMyBatis.nextVal, '하하핳', 20, '서울시 강남구', 'm')
+	</insert>	 
+	
+	<insert id="add" parameterType="com.test.domain.MyBatisDTO">
+		insert into tblMyBatis(seq, name, age, address, gender )
+        values(seqMyBatis.nextVal, #{name}, #{age}, #{address}, #{gender})
+	</insert>
+	 
+	<delete id="m2" parameterType="String">
+		delete from tblMyBatis where seq = #{seq}
+	</delete>
+	 
+	 <update id="m3" parameterType="java.util.HashMap">
+		 update tblMyBatis 
+		 set name = #{name}, 
+		 address = #{address} where seq = #{seq}	
+	 </update>
+	 
+	 <select id="m4" resultType="Integer">
+	 	select count(*) from tblMyBatis
+	 </select>
+	 
+	 <!-- 알아서 리스트로 변환해준다. -->
+	 <select id="m5" parameterType="String" resultType="com.test.domain.MyBatisDTO">
+	 	select * from tblMyBatis where seq = #{seq}
+	 </select>
+	 
+	 <select id="m6" resultType="String">
+	 	select name from tblMyBatis
+	 </select>
+	 <!-- 이떄는 리스트로 안받음  -->
+	 
+	 <!-- 알아서 리스트 처리해주는데 리스트 처리는 DAOImpl에서 결정 -->
+	 <select id="m7" resultType="com.test.domain.MyBatisDTO">
+	 	select * from tblMyBatis
+	 </select>
+	 
+	 <select id="m8" parameterType="String" resultType="Integer">
+	 	<!-- #{key} : 데이터바인딩 > 문자열 전송 -->
+	 	<!-- ${key} : 식별자바인딩 > [문자열 아님!!] 전송 -->
+	 	<!-- 복잡한 쿼리를 만들 때 딸라 바인딩을 한다. 그러면 조금더 편하게 코드를 짠다. -->
+	 	select count(*) from ${table}
+	 </select>
+	 
+	 <select id="m9" parameterType="Integer" 
+	 resultType="com.test.domain.MyBatisDTO">
+	 	select * from tblMyBatis
+	 		<![CDATA[
+	 		where age < #{age}
+	 		]]>
+	 </select>
+	 <!-- select * from tblMyBatis where address like '%' || #{word} || '%' -->
+	 <!-- select * from tblMyBatis where address like '%${word}%'           -->
+	 <select id="m10" parameterType="String" resultType="com.test.domain.MyBatisDTO"> 
+	 	select * from tblMyBatis where address like '%${word}%'
+	 </select>
+	 
+	 <!--  selectKey 이거 중요 !! order="BEFORE" 로 insert 쿼리 실행전에 실행된다. -->
+	 <insert id="m11" parameterType="com.test.domain.MyBatisDTO">
+	 	
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			select seqMyBatis.nextVal from dual
+		</selectKey>
+		 
+	 	insert into tblMyBatis(seq, name, age, address, gender )
+        values (#{seq}, #{name}, #{age}, #{address}, #{gender})
+	 </insert>
+	 
+	 
+	 
+	 <!-- 파라미터 타입은 넣지 않아도 된다. -->
+	 <select id="m12" resultType="String">
+	 	<!-- <if test="type == 1">
+	 		select first_name from employees
+	 	</if>
+	 	
+	 	<if test="type == 2">
+	 		select last_name, salary from employees
+	 	</if> -->
+	 	
+	 	select
+	 		<if test="type == 1">first_name</if>
+	 		<if test="type == 2">last_name</if>
+	 	from employees
+	 		
+	 </select>
+	 <!-- mybatis의 파라미터타입을 어떻게 하느냐는 회사에 따라 다르다.  -->
+	 
+	 
+	 <!-- ★★★ resultType은 생략하지 못한다.! -->
+	 <select id="m13" resultType="com.test.domain.MyBatisDTO">
+	 
+	 	select * from tblMybatis
+	 		
+	 		<!-- <if test="column == 'name'">
+	 		where name = #{word}
+	 		</if>
+	 		
+	 		<if test="column == 'age'">
+	 		<![CDATA[
+	 		where age <= #{word} 
+	 		]]>
+	 		</if>
+	 		
+	 		<if test="column == 'address'">
+	 		where address like '%' || #{word} || '%'
+	 		</if> -->
+	 		
+	 		<choose>
+	 			<when test="column == name">
+	 				where name = #{name}
+	 			</when>
+	 			<when test="column == age">
+	 				<![CDATA[ where age <= #{word} ]]>
+	 			</when>
+	 			<otherwise>
+	 				where address like '%' || #{word} || '%'
+	 			</otherwise>
+	 		</choose>
+	 		
+	 </select>
+	 
+	 <select id="m14" resultType="com.test.domain.MyBatisDTO">
+	 <!--  
+	 	1. m14.do 
+	 		- select * from tblMyBatis
+	 	2. m14.do?address=서울
+	 		- select * from tblMyBatis where 조건
+	 		
+	 	where라는 태그는 꼭 조건문이랑 같이 써야 한다.
+	 	★ if 라는 조건을 만족하면 where라는 키워드를 붙여준다. 
+	 	★ 조건을 만족하지 못하면 where라는 키워드는 사라진다.  
+	  -->
+	 <!-- trim을 쓸 땐 뒤아래 사이사이 붙는 논리 연산자가 말썽이다. 
+	 m14.do
+	 select * from tblMyBatis WHERE rownum = 1
+	 
+	 m14.do?address=서울
+	 select * from tblMyBatis WHERE address like '%' || '서울' || '%' and rownum = 1  
+	 --> 
+	 select * from tblMyBatis
+	 	<where>
+	 		<if test="address != null">
+	 			address like '%' || #{address} || '%'
+	 		</if>
+	 		
+	 		<trim prefix="and">
+	 			rownum = 1
+	 		</trim> 	
+	 	</where>
+	 
+	 </select>
+	 
+	 <select id="m15" resultType="com.test.domain.MyBatisDTO">
+	 	select * from tblMyBatis
+	 		where name in 
+	 		<foreach collection="list" item="name" open="(" close=")" separator="," >
+	 			#{name}
+	 		</foreach>
+	 </select>
+	 
+	 <!-- 한번에 한개의 쿼리만 실행한다. 그리고 (로 열고 )닫고 ,로 엘리먼트 나눔 
+	 select * from tblMyBatis where name in ( '홍길동' , '장보고' ) 
+	 -->
+</mapper>
+<!-- 이거가지고 <![CDATA[]]> 쿼리 전체를 묶어도 된다. -->
+<!-- > 는 되는데 <는 안된다. 이거 태그랑 헷갈려       -->
+<!-- cdata는 해석을 안하는 영역이다. 이 안에의 문자들은 해석을 안한다.  -->
+<!--  세미클론은 지우자!!!  
+map.get("name")
+-->

@@ -1,0 +1,14 @@
+파일 생성
+
+- com.test.controller > AOPController.java
+- com.test.persistence > AOPDAO.java(I)
+						> AOPDAOImpl.java(C)
+						
+- views > "list.jsp"
+	    > "add.jsp"
+	    > "view.jsp"
+	    
+- "com.test.aspect" > "Log.java"
+
+
+

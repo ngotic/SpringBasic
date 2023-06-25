@@ -1,0 +1,73 @@
+새 프로젝트 만들기
+
+1. 회원 기능(DB 구출, 가입X, 로그인 구현)
+2. 게시판 기능(CRUD)
+
+
+
+WEB-INF/spring/"security-context.xml" 생성
+
+
+1. 회원 인증(로그인, 로그아웃) 
+2. 게시판 
+
+create table tblMember (
+	id varchar2(30) not null primary key,
+	name varchar2(30) not null,
+	pw varchar2(30) not null,
+	email varchar2(100) not null,
+	gender char(1) not null,
+	regdate date default sysdate not null,
+	enabled char(1) default '1'
+);
+
+create table tblAuth(
+	id varchar2(30) not null references tblMember(id),
+	auth varchar2(50) not null
+);
+
+
+- com.test.mapper > "MemberMapper.java(I)"
+
+- src/main/resources > "com" > "test" > "mapper" > "MemberMapper.xml"
+
+파일 생성
+
+- "com.test.controller" > "CommonController.java"
+						> "MemberController.java"
+						> "BoardController.java"
+
+- "com.test.service" > "BoardService.java"(I)
+					 > "BoardServiceImpl.java(C)"
+
+
+- "com.test.mapper"  > "BoardMapper.java(I)"
+
+- src/main/resources > com > test > mapper > BoardMapper.xml
+
+- views > "template.jsp"
+		> "index.jsp"
+
+- views > "member" > "login.jsp"
+				   > "logout.jsp"
+
+- views > "board"  > "list.jsp"
+				   > "view.jsp"
+				   > "add.jsp"
+				   > "edit.jsp"
+				   > "del.jsp"
+						 
+- views > "inc" > "header.jsp"
+
+
+권한 체크
+
+- add.do, addok.do, edit.do, editok.do, del.do, delok.do > 인증 사용자만 접근 
+
+
+
+
+ 
+
+
+

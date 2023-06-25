@@ -1,0 +1,80 @@
+
+Spring MVC
+- 스프링 기반 MVC 웹 프로젝트 구현
+
+패키지 
+- "com.test.controller"
+
+웹 요청 담당하는 서블릿 > Controller 역할
+스프링 컨트롤러 > 000Controller 
+
+
+com.test.controller > "EX01Controller.java"
+
+views > "ex01.jsp"
+
+
+com.test.controller > "Ex02Controller.java"
+
+
+com.test.persistence  > "SpringDAO.java(I)"
+				      > "SpringDAOImpl.java(C)"
+				      
+views > "ex02.jsp"
+
+com.test.controller > "Ex03Controller.java"
+views > "ex03.jsp"
+				    
+				    
+comtest.controller > "Ex03Controller.java"
+views > "ex03.jsp"
+
+com.test.controller > "BoardController.java"
+views   > list.jsp
+		> "add.jsp"
+		> addok.jsp
+		> view.jsp
+		
+com.test.controller > "Ex05Controller.java"
+views > "ex05.jsp"
+
+
+com.test.domain > SpringDTO.java // VO, DTO 
+
+요청 메소드 반환값!!
+
+com.test.controller. > "Ex06Controller.java"
+
+1. DI(XML, Annotation)
+2. AOP(XML, Annotation)
+3. Spring MVC > 웹 기반
+	3.1 Controller 
+	3.2 파리미터 전송
+	3.3 컨트롤러 반환값
+	3.4 사용자 예외 처리
+
+com.test.controller > "Ex07Controller.java"
+
+
+com.test.Exception  > "CommonExceptionAdvice.java"
+views > "ex07.jsp"
+	  > "error.jsp"  
+
+	  
+	  
+// 404번대는 주소가 틀림
+"views > notfound.jsp"
+  
+// 500번대는 개발자 잘못하다.
+   @ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public String notfound() {		
+		return "notfound.jsp";
+	}
+	
+	이거달고 web.xml 해야한다.
+  
+  
+ 새 프로젝트
+ - new > Spring Legacy Project > Spring MVC Project > MyBatisTest
+ com.test.mybatis> Finish

@@ -1,0 +1,74 @@
+
+REST, Representational State Transfer
+- 웹상의 자원(문서, 이미지, 동영상, 데이터 등 ) 자원명으로 표시해서 자원의 상태를 주고 받는 행위
+- HTTP URI를 통해서 자원을 명시하고, HTTP Method를 통해서 자원에 대한 CRUD를 처라히는 방식
+
+URI(URL) 표기 방식
+
+게시판
+
+1. 여태 사용한 구현 방식 > URI 표현
+	- 목록보기  GET  http://localhost/board/list.do
+	- 추가하기  POST http://localhost/board/add.do
+	- 수정하기  POST http://localhost/board/edit.do
+	- 삭제하기  POST http://localhost/board/del.do
+	- 검색하기  GET  http://localhost/board/list.do?word=검색어
+	
+	// > 거의 다 동사이름으로 되어 있다.
+	// 원래 주소는 이러한 형식으로 원했었다.
+	 
+"메서드는 어떤 행동의 성질을 표현한다."
+
+2. REST 방식
+	- 목록보기  GET    http://localhost/board             ] 데이터를 줘~ 
+	- 추가하기  POST   http://localhost/board + 데이터(패킷 저장)
+	- 수정하기  PUT    http://localhost/board/1 + 데이터(패킷 저장)
+	- 삭제하기  DELETE http://localhost/board/1            ] 이것만 가지고 해당요소를 삭제
+	- 검색하기  GET    http://localhost/board/검색어       ]  
+	
+REST API 설계 규칙
+1. URI에 자원을 표시한다. > 마지막 단어가 자원을 표현한다.
+ 
+2. URI에 동사를 표시하지 않는다.
+ 
+3. HTTP Method를 사용해서 행동을 표현한다.
+	a. GET  : 리소스 요청 
+	b. POST : 데이터 전달 + 서버측 저장 
+	c. PUT  : 데이터 전달 + 수정(전체 수정) > 레코드 전체를 수정  
+	d. PATCH : 데이터 전달 + 수정(일부 수정) > 레코드의 일부 칼럼 수정
+	e. DELETE : 데이터 삭제
+	
+4. URI + HTTP Method = REST API 
+
+
+5. 구분자 '/'를 사용한다.
+
+6. URI의 마지막에 '/'를 적지 않는다.
+
+
+http://naver.com  (O)
+http://naver.com/ (X)
+
+
+7. '-' 사용이 가능하다.(가끔)
+
+8. '_' 사용하지 않는다.(언더바, 가독성)
+
+9. 소문자로만 작성한다.
+
+10. 확장자를 작성하지 않는다. > 자원명으로 끝나기 때문(확장자 의미 X)
+
+	
+- "com.test.controller" > "TestController.java" 
+
+
+- com.test.domain > 
+
+
+
+클라이언트가 다양해짐에 따라 이런 Restfull이 좋아짐 
+
+
+★ form태그에서는 get과 post만 된다. <form method></form>
+
+

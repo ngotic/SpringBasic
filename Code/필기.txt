@@ -1,0 +1,22 @@
+- 기본 설정 + MyBatis
+ 
+[코드 조각 관리 게시판]
+- Code > "script.sql"
+
+- "com.test.controller" > "CodeController.java"
+
+- "com.test.persistence" > "CodeDAO.java(I)"
+						 > "CodeDAOImpl.java(C)"
+						 
+- "com.test.domain" > "CodeDTO.java"
+
+
+- views > "list.jsp"
+		> "view.jsp"
+		> "add.jsp"
+		
+		
+처음 패키지 만들 때 com.test.code 이렇게 code가 context root가 된다. 
+
+
+Servers 탭에서 톰켓 modules에서 바꾼다.
